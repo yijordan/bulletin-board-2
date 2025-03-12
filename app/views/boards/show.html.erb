@@ -64,7 +64,11 @@
 
   <% @active_posts.each do |a_post| %>
     <tr>
-      <td><%= a_post.title %></td>
+      <% if current_user.id == a_post.user_id %>
+        <td><%= a_post.title %> <a href="/delete_post/:post_id">Delete post</a></td>
+      <% else %>
+        <td><%= a_post.title %></td>
+      <% end %>
       <td><%= a_post.body %></td>
       <td><%= a_post.poster.email %></td>
       <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
