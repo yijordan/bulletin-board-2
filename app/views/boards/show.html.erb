@@ -13,7 +13,7 @@
 </h2>
 
 <% if current_user != nil %>
-  <form action="/insert_post" method="post">
+  <form action="/insert_post" method="post" data-turbo="true" data-turbo-frame="posts">
     <div>
       <label for="title_box">
         Title
@@ -51,48 +51,50 @@
 
 <hr>
 
-<h2>Active posts</h2>
+<turbo-frame id="posts">
+  <h2>Active posts</h2>
 
-<table border="1">
-  <tr>
-    <th>Title</th>
-    <th>Body</th>
-    <th>Posted by</th>
-    <th>Posted on</th>
-    <th>Expires on</th>
-  </tr>
-
-  <% @active_posts.each do |a_post| %>
+  <table border="1">
     <tr>
-      <% if current_user.id == a_post.user_id %>
-        <td><%= a_post.title %> <a href="/delete_post/<%= a_post.id %>">Delete post</a></td>
-      <% else %>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Posted by</th>
+      <th>Posted on</th>
+      <th>Expires on</th>
+    </tr>
+
+    <% @active_posts.each do |a_post| %>
+      <tr>
+        <% if current_user.id == a_post.user_id %>
+          <td><%= a_post.title %> <a href="/delete_post/<%= a_post.id %>">Delete post</a></td>
+        <% else %>
+          <td><%= a_post.title %></td>
+        <% end %>
+        <td><%= a_post.body %></td>
+        <td><%= a_post.poster.email %></td>
+        <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+        <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h2>Expired posts</h2>
+
+  <table border="1">
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Posted on</th>
+      <th>Expired on</th>
+    </tr>
+
+    <% @expired_posts.each do |a_post| %>
+      <tr>
         <td><%= a_post.title %></td>
-      <% end %>
-      <td><%= a_post.body %></td>
-      <td><%= a_post.poster.email %></td>
-      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
-      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
-    </tr>
-  <% end %>
-</table>
-
-<h2>Expired posts</h2>
-
-<table border="1">
-  <tr>
-    <th>Title</th>
-    <th>Body</th>
-    <th>Posted on</th>
-    <th>Expired on</th>
-  </tr>
-
-  <% @expired_posts.each do |a_post| %>
-    <tr>
-      <td><%= a_post.title %></td>
-      <td><%= a_post.body %></td>
-      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
-      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
-    </tr>
-  <% end %>
-</table>
+        <td><%= a_post.body %></td>
+        <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+        <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+      </tr>
+    <% end %>
+  </table>
+</turbo-frame>
