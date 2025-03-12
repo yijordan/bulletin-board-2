@@ -65,7 +65,7 @@
   <% @active_posts.each do |a_post| %>
     <tr>
       <% if current_user.id == a_post.user_id %>
-        <td><%= a_post.title %> <a href="/delete_post/:post_id">Delete post</a></td>
+        <td><%= a_post.title %> <a href="/delete_post/<%= a_post.id %>">Delete post</a></td>
       <% else %>
         <td><%= a_post.title %></td>
       <% end %>
