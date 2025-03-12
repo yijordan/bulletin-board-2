@@ -38,6 +38,8 @@
   </div>
 
   <input type="hidden" id="board_id_box" name="query_board_id" value="<%= @the_board.id %>">
+  <input type="hidden" id="user_id_box" name="query_user_id" value="<%= @the_board.user_id %>">
+
 
   <button>
     Add post
@@ -52,6 +54,7 @@
   <tr>
     <th>Title</th>
     <th>Body</th>
+    <th>Posted by</th>
     <th>Posted on</th>
     <th>Expires on</th>
   </tr>
@@ -60,6 +63,7 @@
     <tr>
       <td><%= a_post.title %></td>
       <td><%= a_post.body %></td>
+      <td><%= a_post.poster.email %></td>
       <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
       <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
     </tr>
